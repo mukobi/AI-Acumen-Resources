@@ -116,8 +116,8 @@ def main() -> None:
     img_path = "./Resources/ai_acumen_wide.png"
     image = plt.imread(img_path)
     zoom_level = 0.03
-    image_center_x = max(x) - 1.5
-    image_center_y = 0.15
+    image_center_x = max(x) - 1.475
+    image_center_y = 0.1625
     oi = OffsetImage(image, zoom=zoom_level)
     ab = AnnotationBbox(oi, (image_center_x, image_center_y), frameon=False)
     ax = plt.gca()
