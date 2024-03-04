@@ -11,9 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-DEFAULT_COLOR_PALETTE = "bright"
+COLOR_PALETTE_DEFAULT = "bright"
 CAPSIZE_DEFAULT = 0.2
 LABELSIZE_DEFAULT = 14
+FIGSIZE_DEFAULT = (6, 3.375)
 
 
 def set_seed(seed: int) -> None:
@@ -49,7 +50,7 @@ def initialize_plot_default() -> None:
     # Default theme
     sns.set_theme(context="paper", font_scale=1.5, style="whitegrid")
     # Figure size
-    plt.rcParams["figure.figsize"] = (8, 5)
+    plt.rcParams["figure.figsize"] = FIGSIZE_DEFAULT  # 16:9 aspect ratio
     # Make title larger
     plt.rcParams["axes.titlesize"] = 16
     # Higher DPI
@@ -60,8 +61,10 @@ def initialize_plot_default() -> None:
     plt.rcParams["lines.markersize"] = 12
     # Set font size to LABELSIZE_DEFAULT
     plt.rcParams["font.size"] = LABELSIZE_DEFAULT
+    # Set font to Bahnschrift
+    plt.rcParams["font.family"] = "Bahnschrift"
     # Accessible colors
-    sns.set_palette(DEFAULT_COLOR_PALETTE)
+    sns.set_palette(COLOR_PALETTE_DEFAULT)
 
 
 def initialize_plot_no_markers() -> None:
@@ -72,7 +75,7 @@ def initialize_plot_no_markers() -> None:
 
 
 def get_color_from_palette(
-    index: int, palette_name: str = DEFAULT_COLOR_PALETTE
+    index: int, palette_name: str = COLOR_PALETTE_DEFAULT
 ) -> Any:
     """Get a color from the default palette."""
     palette = sns.color_palette(palette_name)
@@ -80,13 +83,15 @@ def get_color_from_palette(
     return color
 
 
-def save_plot(output_dir: str, filename: str, save_target: Any = plt) -> None:
+def save_plot(
+    filename: str, output_dir: str = "output", save_target: Any = plt
+) -> None:
     """Save a plot to a file."""
-    assert not any(
-        extension in filename.lower() for extension in [".jpg", "jpeg", ".png"]
+    assert any(
+        extension in filename.lower() for extension in [".jpg", "jpeg", ".png", ".pdf"]
     )
     filename_arxivable = (
-        f"{filename}.pdf".replace(" (", "_")
+        f"{filename}".replace(" (", "_")
         .replace(")", "")
         .replace(" ", "_")
         .replace("/", "_")
