@@ -32,21 +32,23 @@ def main() -> None:
     phase_colors = ["#AEB5EA", "#AAEEBD", "#FBDA74", "#FBADAF"]
     # https://coolors.co/0c1027-082b13-332500-280b0c
     text_colors = ["#0C1027", "#082B13", "#332500", "#280B0C"]
-    phase_widths = [2, 1, 3, 2]
+    phase_widths = [2.25, 1.25, 2.5, 2.25]
+    phase_label_heights = [0.325, 0.425, 0.46, 0.55]
+    phase_label_x_offsets = [0, -0.15, 0, 0]
     solid_fraction = 0.75  # Fraction of each band that should be solid color
 
     plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
 
     # Generate capabilities progress line
-    np.random.seed(66)
+    np.random.seed(65)
     n_steps = 20
-    x = np.linspace(0, sum(phase_widths), n_steps)
+    # x = np.linspace(0, sum(phase_widths), n_steps)
     # Make x randomly spaced too
-    # x = np.cumsum(np.random.rand(n_steps))
-    # x = x / max(x) * sum(phase_widths)
-    y = np.cumsum(np.random.rand(n_steps) * 0.2)
-    # y is random increases at each
+    x = np.cumsum(np.random.rand(n_steps))
+    x = x / max(x) * sum(phase_widths)
     # y = np.cumsum(np.random.rand(n_steps) * 0.2)
+    # y is random increases at each
+    y = np.cumsum(np.random.rand(n_steps) * 0.2)
 
     # Create a modified colormap for gradient and solid bands
     total_width = sum(phase_widths)
@@ -71,15 +73,10 @@ def main() -> None:
     # Draw labels over the bands
     start = 0
     for i, (width, phase) in enumerate(zip(phase_widths, phase_names)):
-        ypos = max(y) * 0.4
-        if i == 1:
-            ypos = max(y) * 0.55
-        elif i == 2:
-            ypos = max(y) * 0.4
-        elif i == 3:
-            ypos = max(y) * 0.65
+        xpos = start + width / 2 + phase_label_x_offsets[i]
+        ypos = max(y) * phase_label_heights[i]
         plt.text(
-            start + width / 2,
+            xpos,
             ypos,
             phase,
             ha="center",
@@ -99,23 +96,10 @@ def main() -> None:
     plt.title("Four Phases of AGI (Illustrative Data)")
     plt.xlabel(r"Time and Investment $\rightarrow$")
     plt.ylabel(r"General Capabilities $\rightarrow$")
-    plt.xlim([0, max(x)])
-    plt.ylim([0, max(y)])
+    plt.xlim([min(x), max(x)])
+    plt.ylim([min(y), max(y)])
     plt.xticks([])
     plt.yticks([])
-
-    # # Overlay logo
-    # img_path = "./Resources/ai_acumen_wide.png"
-    # image = plt.imread(img_path)
-    # image_ar = image.shape[1] / image.shape[0]
-    # axes_ar = max(x) / max(y)
-    # fig_ar = chart_utils.FIGSIZE_DEFAULT[0] / chart_utils.FIGSIZE_DEFAULT[1]
-    # width = 2.25
-    # height = width / image_ar / axes_ar * fig_ar
-    # right, bottom = max(x) - 0.05, 0.04
-    # left, top = right - width, bottom + height
-    # plt.imshow(image, aspect="auto", extent=[left, right, bottom, top], zorder=10)
-    # # plt.imshow(image, aspect="auto", extent=None, zorder=10)
 
     # Load the image
     img_path = "./Resources/ai_acumen_wide.png"
