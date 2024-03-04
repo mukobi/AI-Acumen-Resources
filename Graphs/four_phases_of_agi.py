@@ -29,7 +29,7 @@ def main() -> None:
         "Super-\nIntelligent",
     ]
     # https://coolors.co/aeb5ea-aaeebd-fbda74-fbadaf
-    phase_colors = ["#AEB5EA", "#AAEEBD", "#FBDA74", "#FBADAF"]
+    phase_colors = ["#AEB5EA", "#AAEEBD", "#FBDA74", "#FBACC0"]
     # https://coolors.co/0c1027-082b13-332500-280b0c
     text_colors = ["#0C1027", "#082B13", "#332500", "#280B0C"]
     phase_widths = [2.25, 1.25, 2.5, 2.25]
@@ -88,32 +88,41 @@ def main() -> None:
         start += width
 
     # Plot the capabilities progress line
-    plt.step(
-        x, y, where="post", linewidth=3, color="#333", label="Capabilities\nAdvancement"
-    )
+    plt.step(x, y, where="post", linewidth=3, color="#444", label="Mock Data")
 
     # Customize the plot
-    plt.title("Four Phases of AGI (Illustrative Data)")
+    plt.title("Four Phases of AGI")
     plt.xlabel(r"Time and Investment $\rightarrow$")
     plt.ylabel(r"General Capabilities $\rightarrow$")
     plt.xlim([min(x), max(x)])
     plt.ylim([min(y), max(y)])
     plt.xticks([])
     plt.yticks([])
+    # Black border
+    plt.gca().spines[:].set_color("black")
 
-    # Load the image
+    # Add mock data disclaimer as legend
+    plt.legend(
+        loc="upper left",
+        fontsize=chart_utils.LABELSIZE_DEFAULT * 0.66,
+        # facecolor="white",
+        # Less horizontal separation
+        labelspacing=0.2,
+        # Less padding
+        # borderpad=0.2,
+        # Transparency
+        framealpha=0.66,
+        # Smaller line indicator
+    )
+
+    # Add logo overlay
     img_path = "./Resources/ai_acumen_wide.png"
     image = plt.imread(img_path)
-
-    # Create an OffsetImage
-    # zoom determines the scale of the image; adjust as needed
-    zoom_level = 0.03  # Adjust this based on your needs
+    zoom_level = 0.03
     image_center_x = max(x) - 1.5
     image_center_y = 0.15
     oi = OffsetImage(image, zoom=zoom_level)
     ab = AnnotationBbox(oi, (image_center_x, image_center_y), frameon=False)
-
-    # Add the AnnotationBbox to the current Axes
     ax = plt.gca()
     ax.add_artist(ab)
 
