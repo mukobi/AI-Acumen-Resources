@@ -28,13 +28,13 @@ def main() -> None:
         "Moderately\nSuperhuman",
         "Super-\nIntelligent",
     ]
-    # https://coolors.co/aeb5ea-aaeebd-fbda74-fbadaf
+    # https://coolors.co/aeb5ea-aaeebd-fbda74-fbacc0
     phase_colors = ["#AEB5EA", "#AAEEBD", "#FBDA74", "#FBACC0"]
     # https://coolors.co/0c1027-082b13-332500-280b0c
     text_colors = ["#0C1027", "#082B13", "#332500", "#280B0C"]
     phase_widths = [2.25, 1.25, 2.5, 2.25]
     phase_label_heights = [0.325, 0.425, 0.46, 0.55]
-    phase_label_x_offsets = [0, -0.15, 0, 0]
+    phase_label_x_offsets = [0, -0.125, 0, 0]
     solid_fraction = 0.75  # Fraction of each band that should be solid color
 
     plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
@@ -106,13 +106,10 @@ def main() -> None:
         loc="upper left",
         fontsize=chart_utils.LABELSIZE_DEFAULT * 0.66,
         # facecolor="white",
-        # Less horizontal separation
         labelspacing=0.2,
-        # Less padding
         # borderpad=0.2,
-        # Transparency
         framealpha=0.66,
-        # Smaller line indicator
+        handlelength=1,
     )
 
     # Add logo overlay
