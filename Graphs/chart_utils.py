@@ -63,6 +63,9 @@ def initialize_plot_default() -> None:
     plt.rcParams["font.size"] = LABELSIZE_DEFAULT
     # Set font to Bahnschrift
     plt.rcParams["font.family"] = "Bahnschrift"
+    # Text color to black
+    plt.rcParams["text.color"] = "black"
+    plt.rcParams["axes.labelcolor"] = "black"
     # Accessible colors
     sns.set_palette(COLOR_PALETTE_DEFAULT)
 
