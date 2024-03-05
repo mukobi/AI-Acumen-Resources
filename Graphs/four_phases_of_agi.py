@@ -33,8 +33,8 @@ def main() -> None:
     # https://coolors.co/0c1027-082b13-332500-280b0c
     text_colors = ["#0C1027", "#082B13", "#332500", "#280B0C"]
     phase_widths = [2.25, 1.25, 2.5, 2.25]
-    phase_label_heights = [0.325, 0.425, 0.46, 0.55]
-    phase_label_x_offsets = [0, -0.125, 0, 0]
+    phase_label_heights = [0.325, 0.425, 0.47, 0.55]
+    phase_label_x_offsets = [0, -0.1, 0, 0]
     solid_fraction = 0.75  # Fraction of each band that should be solid color
 
     plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
