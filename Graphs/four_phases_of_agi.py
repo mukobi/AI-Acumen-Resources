@@ -111,13 +111,17 @@ def main() -> None:
     # Add logo overlay
     img_path = "./Resources/ai_acumen_wide.png"
     image = plt.imread(img_path)
-    zoom_level = 0.03
-    image_center_x = max(x) - 1.475
-    image_center_y = 0.1625
-    oi = OffsetImage(image, zoom=zoom_level)
-    ab = AnnotationBbox(oi, (image_center_x, image_center_y), frameon=False)
+    zoom_level = 2.5
+    image_center_x = 5.6125
+    image_center_y = -1.09
     ax = plt.gca()
-    ax.add_artist(ab)
+    imagebox = ax.inset_axes(
+        [image_center_x, image_center_y, zoom_level, zoom_level],
+        transform=ax.transData,
+        anchor="C",
+    )
+    imagebox.imshow(image)
+    imagebox.axis("off")
 
     # Draw labels over the bands
     start = 0
