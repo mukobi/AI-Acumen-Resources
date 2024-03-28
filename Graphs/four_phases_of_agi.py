@@ -32,12 +32,22 @@ def main() -> None:
     phase_colors = ["#AEB5EA", "#AAEEBD", "#FBDA74", "#FBACC0"]
     # https://coolors.co/0c1027-082b13-332500-280b0c
     text_colors = ["#0C1027", "#082B13", "#332500", "#280B0C"]
+    phase_emoji_paths = [
+        "Resources/emoji_msft/parrot.png",
+        "Resources/emoji_msft/woman-raising-hand-medium-dark-skin-tone.png",
+        "Resources/emoji_msft/man-mage-medium-light-skin-tone.png",
+        "Resources/emoji_msft/milky-way-10th-anniversary.png",
+    ]
+    emoji_size = 0.125
+    emoji_y_offset = 0.25
     phase_widths = [2.25, 1.25, 2.5, 2.25]
-    phase_label_heights = [0.325, 0.425, 0.47, 0.55]
+    phase_label_heights = [0.325, 0.425, 0.47, 0.525]
     phase_label_x_offsets = [0, -0.1, 0, 0]
     solid_fraction = 0.75  # Fraction of each band that should be solid color
 
-    plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
+    fig = plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
+    fig_width = fig.get_window_extent().width
+    fig_height = fig.get_window_extent().height
 
     # Generate capabilities progress line
     np.random.seed(65)
@@ -69,23 +79,6 @@ def main() -> None:
     gradient = np.vstack((gradient, gradient))
     extent = [0, total_width, 0, max(y)]
     plt.imshow(gradient, aspect="auto", cmap=modified_cmap, extent=extent)
-
-    # Draw labels over the bands
-    start = 0
-    for i, (width, phase) in enumerate(zip(phase_widths, phase_names)):
-        xpos = start + width / 2 + phase_label_x_offsets[i]
-        ypos = max(y) * phase_label_heights[i]
-        plt.text(
-            xpos,
-            ypos,
-            phase,
-            ha="center",
-            va="center",
-            fontsize=chart_utils.LABELSIZE_DEFAULT,
-            color=text_colors[i],
-            fontweight="bold",
-        )
-        start += width
 
     # Plot the capabilities progress line
     plt.step(x, y, where="post", linewidth=3, color="#444", label="Mock Data")
@@ -122,6 +115,42 @@ def main() -> None:
     ab = AnnotationBbox(oi, (image_center_x, image_center_y), frameon=False)
     ax = plt.gca()
     ax.add_artist(ab)
+
+    # Draw labels over the bands
+    start = 0
+    for i, (width, phase) in enumerate(zip(phase_widths, phase_names)):
+        xpos = start + width / 2 + phase_label_x_offsets[i]
+        ypos = max(y) * phase_label_heights[i]
+        plt.text(
+            xpos,
+            ypos,
+            phase,
+            ha="center",
+            va="center",
+            fontsize=chart_utils.LABELSIZE_DEFAULT,
+            color=text_colors[i],
+            fontweight="bold",
+        )
+        start += width
+
+    # Emojis too
+    start = 0
+    for i, (width, phase) in enumerate(zip(phase_widths, phase_names)):
+        xpos = start + width / 2 + phase_label_x_offsets[i]
+        ypos = max(y) * phase_label_heights[i] + emoji_y_offset
+        start += width
+        loc = ax.transData.transform((xpos, ypos))
+        emoji_axis = fig.add_axes(
+            [
+                loc[0] / fig_width - emoji_size / 2,
+                loc[1] / fig_height - emoji_size / 2,
+                emoji_size,
+                emoji_size,
+            ],
+            anchor="C",
+        )
+        emoji_axis.imshow(plt.imread(phase_emoji_paths[i]))
+        emoji_axis.axis("off")
 
     chart_utils.save_plot("four_phases_of_agi.png")
 
