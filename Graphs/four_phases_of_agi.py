@@ -44,6 +44,9 @@ def main() -> None:
     phase_label_heights = [0.325, 0.425, 0.47, 0.525]
     phase_label_x_offsets = [0, -0.1, 0, 0]
     solid_fraction = 0.75  # Fraction of each band that should be solid color
+    you_are_here_x = 1.75
+    you_are_here_y = 0.205
+    you_are_here_fontsize = 10
 
     fig = plt.figure(figsize=chart_utils.FIGSIZE_DEFAULT)
     fig_width = fig.get_window_extent().width
@@ -132,6 +135,18 @@ def main() -> None:
             fontweight="bold",
         )
         start += width
+
+    # Add "you are here" arrow and text
+    plt.text(
+        you_are_here_x,
+        you_are_here_y,
+        "$\\uparrow$\nYou are\nhere",
+        ha="center",
+        va="center",
+        fontsize=you_are_here_fontsize,
+        family=["bahnschrift", "sans-serif"],
+        color="black",
+    )
 
     # Emojis too
     start = 0
