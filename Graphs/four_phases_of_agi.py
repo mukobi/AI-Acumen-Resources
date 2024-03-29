@@ -12,13 +12,13 @@ This is a graph illustrating this transition with:
 
 from matplotlib import pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import numpy as np
 
 import chart_utils
 
 
 def main() -> None:
+    """Main execution function."""
     chart_utils.initialize_plot_no_markers()
 
     # Define the AGI development phases and configurations
